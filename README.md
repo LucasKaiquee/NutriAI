@@ -29,7 +29,7 @@ A IA é usada para gerar receitas e listas de compras com base em:
 
 ## Protótipo
 
-Wireframes criados no [Figma]([https://figma.com](https://www.figma.com/design/f8nqwu6IXwNfCJqUTONhMS/Untitled?node-id=0-1&t=uZr3lOJHHzXq5PUX-1))
+Wireframes criados no [Figma](https://www.figma.com/design/f8nqwu6IXwNfCJqUTONhMS/Untitled?node-id=0-1&t=uZr3lOJHHzXq5PUX-1)
 
 ---
 
