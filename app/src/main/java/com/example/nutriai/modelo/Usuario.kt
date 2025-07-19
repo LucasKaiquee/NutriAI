@@ -1,10 +1,11 @@
 package com.example.nutriai.modelo
 
 data class Usuario(
-    val uid: String = "",
-    val nome: String = "",
-    val email: String = "",
-    val idade: Int? = null,
-    val rotina: String = "",
-    val preferenciasAlimentares: String = ""
+    val nome: String,
+    val idade: Int,
+    val rotina: String,
+    val preferenciasAlimentares: String,
+    val ingredientesDisponiveis: List<Ingrediente>,
+    val receitasSalvas: List<Receita>,
+    val listaDeCompras: ListaDeCompras
 )
