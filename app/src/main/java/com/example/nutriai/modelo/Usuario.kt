@@ -1,11 +1,12 @@
 package com.example.nutriai.modelo
 
+import com.google.firebase.firestore.Exclude
+
 data class Usuario(
-    val nome: String,
-    val idade: Int,
-    val rotina: String,
-    val preferenciasAlimentares: String,
-    val ingredientesDisponiveis: List<Ingrediente>,
-    val receitasSalvas: List<Receita>,
-    val listaDeCompras: ListaDeCompras
+    val name: String = "",
+    val age: Int = 0,
+    val routine: String = "",
+    val preferences: String = "",
+    val ingredientes: List<Ingrediente> = ArrayList(),
+    val receitas: List<Receita> = ArrayList()
 )

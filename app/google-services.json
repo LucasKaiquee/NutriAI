@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "169694644039",
-    "project_id": "nutriai-fad87",
-    "storage_bucket": "nutriai-fad87.firebasestorage.app"
+    "project_number": "41958176779",
+    "project_id": "nutriai-e35b4",
+    "storage_bucket": "nutriai-e35b4.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:169694644039:android:d663cd25b72e97d08dae62",
+        "mobilesdk_app_id": "1:41958176779:android:05e861de52e7b0ba42af0e",
         "android_client_info": {
           "package_name": "com.example.nutriai"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": ""
+          "current_key": "AIzaSyCia4oT-WZr8zgP-1HZrULhqxxyjPdii10"
         }
       ],
       "services": {

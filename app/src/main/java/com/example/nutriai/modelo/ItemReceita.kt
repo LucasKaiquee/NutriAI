@@ -1,7 +1,11 @@
 package com.example.nutriai.modelo
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ItemReceita(
-    val ingrediente: Ingrediente,
-    val quantidade: Float, // Usamos Float para quantidades como 0.5 (meia)
-    val unidadeDeMedida: String // Ex: "xícara de chá", "colher de sopa"
+
+    val nome: String = "",
+    val quantidade: Float = 0f,
+    val unidadeDeMedida: String = "" // Ex: "xícara de chá", "colher de sopa"
 )
