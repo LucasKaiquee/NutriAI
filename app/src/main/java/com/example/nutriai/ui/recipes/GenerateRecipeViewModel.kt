@@ -35,7 +35,10 @@ class GenerateRecipeViewModel : ViewModel() {
                     return@getUser
                 }
 
-                val ingredientNames = user.ingredientes.map { it.nome }
+                val ingredientNames = user.ingredientes.map { it.formatar() }
+
+                println("-------Lista ingredientes------------")
+                println(ingredientNames.toString())
 
                 viewModelScope.launch {
                     val rawResponse = GeradorReceitas.generateRecipe(
@@ -63,7 +66,7 @@ class GenerateRecipeViewModel : ViewModel() {
                             }
                         }
                         is ParseResult.Error -> {
-                            // O parse falhou! Mostramos a mensagem de erro detalhada.
+                            // Mostra a mesnsagem de erro com detalhes.
                             _uiState.value = RecipeUiState.Error("Erro de Parse: ${parseResult.exception.message}")
                         }
                     }

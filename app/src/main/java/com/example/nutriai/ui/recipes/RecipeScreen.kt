@@ -57,14 +57,14 @@ fun GenerateRecipeScreen(
                         selected = meal == selectedMeal,
                         onClick = {
                             selectedMeal = meal
-                            viewModel.generateRecipeFor(meal) // Dispara a geração
+                            viewModel.generateRecipeFor(meal)
                         },
                         label = { Text(meal) }
                     )
                 }
             }
 
-            Divider(modifier = Modifier.padding(vertical = 24.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = 24.dp))
 
             // Área de Resultado
             Box(

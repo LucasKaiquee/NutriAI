@@ -29,7 +29,10 @@ fun RecipeCard(recipe: Receita) {
             Text(recipe.nome, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
             Text(recipe.descricao, style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
 
-            Divider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.primary)
+            HorizontalDivider(
+                modifier = Modifier.padding(vertical = 12.dp),
+                color = MaterialTheme.colorScheme.primary
+            )
 
             // Ingredientes
             Text("Ingredientes", style = MaterialTheme.typography.titleMedium)
@@ -40,10 +43,10 @@ fun RecipeCard(recipe: Receita) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botão Modo de Preparo (ainda sem ação)
+            // Botão Modo de Preparo (TODO)
             Button(
-                onClick = { /* Futuramente, mostrar o modo de preparo */ },
-                shape = RoundedCornerShape(50) // Deixa o botão bem arredondado
+                onClick = { /* TODO */ },
+                shape = RoundedCornerShape(50)
             ) {
                 Text("Modo de preparo")
             }
