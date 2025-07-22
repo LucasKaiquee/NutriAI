@@ -13,7 +13,7 @@ import com.example.nutriai.ui.screens.profile.ProfileScreenContent
 import com.example.nutriai.ui.screens.home.HomeScreen
 import com.example.nutriai.ui.screens.home.AddIngredientScreen
 import com.example.nutriai.ui.screens.home.IngredientListScreen
-import com.example.nutriai.ui.screens.lists.ListasScreen
+import com.example.nutriai.ui.screens.lists.RecipeListScreen
 
 @Composable
 fun Navigation(navController: NavHostController,
@@ -29,7 +29,7 @@ fun Navigation(navController: NavHostController,
             HomeScreen(navController) // substitua pelo conteúdo real depois
         }
         composable("listas") {
-            ListasScreen() // substitua pelo conteúdo real depois
+            RecipeListScreen() // substitua pelo conteúdo real depois
         }
         composable("perfil") {
             ProfileScreenContent(navController)
