@@ -7,7 +7,7 @@ object GeradorReceitas {
 
     private val generativeModel = GenerativeModel(
         modelName = "gemini-2.5-flash",
-        apiKey =  "--> TOKEN_AQUI <---"
+        apiKey =  "AIzaSyBmZ847xmXD4o4fyY2m4dW8GWN98UvAbZQ"
     )
 
 // Dentro do object RecipeGenerator
@@ -19,6 +19,9 @@ object GeradorReceitas {
     ): String { // A função ainda retorna uma String (o JSON bruto)
         try {
             val ingredientesDisponiveis = ingredientes.joinToString(", ")
+
+            println("----Ingredientes Disponiveis ----------------")
+            println(ingredientesDisponiveis)
 
             val prompt = """
             Você é um assistente de culinária chamado NutriAI. Sua tarefa é criar uma receita criativa e saudável em formato JSON.
