@@ -28,19 +28,20 @@ object UserRepository {
     }
 
     fun addIngredient(newIngredient: Ingrediente, onResult: (Boolean) -> Unit) {
-        // Passo 1: LER o usuário atual.
+        // Lê o usuário atual.
         getUser { currentUser ->
             if (currentUser != null) {
-                // Passo 2: MODIFICAR a lista de ingredientes na memória.
 
                 // Pega a lista atual e a torna mutável para podermos adicionar um item.
                 val updatedIngredients = currentUser.ingredientes.toMutableList()
 
+                // Gera um id para atribuir ao novo objeto Ingrediente.
                 val newId = userDoc.collection("ingredientesDisponiveis").document().id
 
-                // Cria a cópia do ingrediente com o ID que AGORA SERÁ SALVO.
+                // Cria a cópia do ingrediente com o id gerado.
                 val ingredientWithId = newIngredient.copy(id = newId)
 
+                // Adiciona o novo ingrediente na lista de ingredientes do usuário.
                 updatedIngredients.add(ingredientWithId)
 
                 // Cria uma cópia do usuário com a lista de ingredientes atualizada.
@@ -48,7 +49,7 @@ object UserRepository {
                     ingredientes = updatedIngredients
                 )
 
-                // Passo 3: ESCREVER o objeto de usuário completo de volta.
+                // Atualiza o usuário no banco de dados com a lista já modificada
                 saveUser(updatedUser) { success ->
                     // Repassa o resultado da operação de salvar para o callback final.
                     onResult(success)
@@ -61,19 +62,17 @@ object UserRepository {
     }
 
     fun deleteIngredient(ingredientId: String, onResult: (Boolean) -> Unit) {
-        // Passo 1: LER o usuário atual.
         getUser { currentUser ->
             if (currentUser != null) {
-                // Passo 2: MODIFICAR a lista, removendo o ingrediente com o ID correspondente.
+                // Modifica a lista, removendo o ingrediente com o ID correspondente.
                 val updatedIngredients = currentUser.ingredientes
-                    .filterNot { it.id == ingredientId } // filterNot é uma forma segura de remover
+                    .filterNot { it.id == ingredientId }
 
                 // Cria uma cópia do usuário com a lista atualizada.
                 val updatedUser = currentUser.copy(
                     ingredientes = updatedIngredients
                 )
 
-                // Passo 3: ESCREVER o objeto de usuário completo de volta.
                 saveUser(updatedUser) { success ->
                     onResult(success)
                 }

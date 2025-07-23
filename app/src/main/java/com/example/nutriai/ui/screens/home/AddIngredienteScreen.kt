@@ -72,7 +72,7 @@ fun AddIngredientScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.weight(1f)) // Empurra o botão para baixo
+            Spacer(modifier = Modifier.weight(1f)) 
 
             if (isLoading) {
                 CircularProgressIndicator()
@@ -91,7 +91,7 @@ fun AddIngredientScreen(
                                 UserRepository.addIngredient(novoIngrediente) { success ->
                                     if (success) {
                                         Toast.makeText(context, "Ingrediente salvo com sucesso!", Toast.LENGTH_SHORT).show()
-                                        navController.popBackStack()
+                                        navController.popBackStack() /*Sai da tela de formulário e volta para a listagem de ingredientes*/
                                     } else {
                                         Toast.makeText(context, "Falha ao salvar o ingrediente.", Toast.LENGTH_SHORT).show()
                                     }
