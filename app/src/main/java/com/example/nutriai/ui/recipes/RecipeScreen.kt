@@ -47,7 +47,6 @@ fun GenerateRecipeScreen(
             Text("Para qual refeição você quer uma sugestão?", style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Chips para seleção da refeição
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
@@ -66,7 +65,6 @@ fun GenerateRecipeScreen(
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 24.dp))
 
-            // Área de Resultado
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -82,7 +80,6 @@ fun GenerateRecipeScreen(
                         Text("Erro: ${state.message}")
                     }
                     is RecipeUiState.Success -> {
-                        // Agora o estado de sucesso tem o objeto, que passamos para o Card
                         Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                             RecipeCard(recipe = state.recipe)
                         }

@@ -21,22 +21,19 @@ import com.example.nutriai.modelo.Usuario
 fun ProfileScreenContent(navController: NavController) {
     var user by remember { mutableStateOf<Usuario?>(null) }
 
-    // A lógica para buscar os dados continua aqui por enquanto
     LaunchedEffect(Unit) {
         UserRepository.getUser {
             user = it
         }
     }
 
-    // A UI começa aqui. O `innerPadding` será passado pelo Scaffold principal.
     user?.let { userData ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp) // O padding do Scaffold já foi aplicado antes
+                .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            // Todo o seu código de Surface, Text, Box, Button, etc., continua aqui...
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()

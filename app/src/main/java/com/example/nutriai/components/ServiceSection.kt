@@ -28,39 +28,39 @@ fun ServicesSection(navController: NavController) {
     ) {
         Text(
             text = "Serviços",
-            style = MaterialTheme.typography.titleMedium, // Usando um estilo de título do tema
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp) // Adiciona espaçamento
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.SpaceAround // Para espaçar os itens igualmente
+            horizontalArrangement = Arrangement.SpaceAround
         ) {
-            ServiceItem(
-                icon = { // Correto: Passando uma lambda que DESENHA o ícone
-                    Icon(
-                        imageVector = Icons.Default.AddCircle,
-                        contentDescription = "Novo ingrediente",
-                        tint = MaterialTheme.colorScheme.onPrimary // Importante para a cor
-                    )
-                },
-                label = "Novo ingrediente",
-            onClick = { navController.navigate("add_ingredient") }
-            )
             ServiceItem(
                 icon = {
                     Icon(
                         // Carrega seu XML da pasta drawable
                         painter = painterResource(id = R.drawable.ic_coffee),
-                        contentDescription = "Receitas",
+                        contentDescription = "Nova Receita",
                         tint = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier.requiredSize(36.dp) // Ajuste o tamanho se necessário
+                        modifier = Modifier.requiredSize(36.dp)
                     )
                 },
-                label = "Receitas",
-                onClick = { /* Ação do botão 2 */ }
+                label = "Nova Receita",
+                onClick = { navController.navigate("generate_recipe")}
+            )
+            ServiceItem(
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.AddCircle,
+                        contentDescription = "Novo ingrediente",
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
+                },
+                label = "Novo ingrediente",
+            onClick = { navController.navigate("add_ingredient") }
             )
             ServiceItem(
                 icon = {
@@ -70,7 +70,7 @@ fun ServicesSection(navController: NavController) {
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
                 },
-                label = "Lista de ingredientes",
+                label = "Ingredientes",
                 onClick = { navController.navigate("ingredientes") }
             )
         }

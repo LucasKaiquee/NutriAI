@@ -32,7 +32,7 @@ fun ServiceItem(
             onClick = onClick,
             modifier = Modifier.requiredSize(72.dp),
             shape = RoundedCornerShape(16.dp),
-            color = MaterialTheme.colorScheme.primary, // Usando a cor primária do tema
+            color = MaterialTheme.colorScheme.primary,
             shadowElevation = 4.dp
         ) {
             Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {

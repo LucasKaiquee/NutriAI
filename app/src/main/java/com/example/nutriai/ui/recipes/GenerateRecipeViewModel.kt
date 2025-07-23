@@ -10,12 +10,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-// Sealed Interface para representar os estados da nossa UI de forma segura
 sealed interface RecipeUiState {
-    data object Idle : RecipeUiState // Estado inicial
-    data object Loading : RecipeUiState // Carregando a resposta da IA
+    data object Idle : RecipeUiState
+    data object Loading : RecipeUiState
     data class Success(val recipe: Receita) : RecipeUiState
-    data class Error(val message: String) : RecipeUiState // Erro
+    data class Error(val message: String) : RecipeUiState
 }
 
 class GenerateRecipeViewModel : ViewModel() {
@@ -23,7 +22,6 @@ class GenerateRecipeViewModel : ViewModel() {
     private val _uiState = MutableStateFlow<RecipeUiState>(RecipeUiState.Idle)
     val uiState = _uiState.asStateFlow()
 
-    // Em GenerateRecipeViewModel.kt
 
     fun generateRecipeFor(mealType: String) {
         viewModelScope.launch {
@@ -52,10 +50,8 @@ class GenerateRecipeViewModel : ViewModel() {
                         .replace("```", "")
                         .trim()
 
-                    // A ViewModel agora verifica o tipo de resultado do parser
                     when (val parseResult = JSONParser.parse(cleanedJsonString)) {
                         is ParseResult.Success -> {
-                            // O parse deu certo, continua o fluxo de salvar
                             val recipeObject = parseResult.recipe
                             UserRepository.addGeneratedRecipe(recipeObject) { success ->
                                 if (success) {
@@ -66,7 +62,6 @@ class GenerateRecipeViewModel : ViewModel() {
                             }
                         }
                         is ParseResult.Error -> {
-                            // Mostra a mesnsagem de erro com detalhes.
                             _uiState.value = RecipeUiState.Error("Erro de Parse: ${parseResult.exception.message}")
                         }
                     }

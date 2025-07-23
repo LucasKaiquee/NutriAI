@@ -23,7 +23,6 @@ fun IngredientListScreen(navController: NavController) {
     var ingredientList by remember { mutableStateOf<List<Ingrediente>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
 
-    // Função para buscar/atualizar a lista de ingredientes
     fun fetchIngredients() {
         isLoading = true
         UserRepository.getUser { user ->
@@ -32,7 +31,6 @@ fun IngredientListScreen(navController: NavController) {
         }
     }
 
-    // Busca os dados quando a tela é aberta pela primeira vez
     LaunchedEffect(key1 = Unit) {
         fetchIngredients()
     }
@@ -84,10 +82,9 @@ fun IngredientListScreen(navController: NavController) {
                                 Text("${ingredient.quantidade} ${ingredient.unidadeDeMedidaPadrao}")
                             }
                             IconButton(onClick = {
-                                // Deleta o ingrediente e atualiza a lista na UI
                                 UserRepository.deleteIngredient(ingredient.id) { success ->
                                     if (success) {
-                                        fetchIngredients() // Recarrega a lista
+                                        fetchIngredients()
                                     }
                                 }
                             }) {

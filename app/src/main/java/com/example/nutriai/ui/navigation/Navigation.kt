@@ -22,14 +22,14 @@ fun Navigation(navController: NavHostController,
 
     NavHost(
         navController = navController,
-        startDestination = "home", // Tela inicial
+        startDestination = "home",
         modifier = Modifier.padding(paddingValues)
     ) {
         composable("home") {
-            HomeScreen(navController) // substitua pelo conteúdo real depois
+            HomeScreen(navController)
         }
         composable("listas") {
-            RecipeListScreen() // substitua pelo conteúdo real depois
+            RecipeListScreen()
         }
         composable("perfil") {
             ProfileScreenContent(navController)
@@ -38,8 +38,6 @@ fun Navigation(navController: NavHostController,
             ProfileEditScreen(navController)
         }
         composable("add_ingredient") {
-            // Esta rota mostra a tela de adicionar ingrediente.
-            // Passamos o navController para que ela possa se fechar.
             AddIngredientScreen(navController = navController)
         }
         composable("ingredientes") {

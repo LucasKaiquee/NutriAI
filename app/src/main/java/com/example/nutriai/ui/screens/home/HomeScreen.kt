@@ -6,6 +6,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -34,10 +35,9 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsState()
     val currentMeal = remember { getCurrentMealTime() }
 
-    // Usamos um rememberSaveable para preservar o estado mesmo se recompor
     val recipeRequested = rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(recipeRequested.value) {
         if (!recipeRequested.value) {
             viewModel.generateRecipeFor(currentMeal)
             recipeRequested.value = true
@@ -60,8 +60,14 @@ fun HomeScreen(
 
         when (val state = uiState) {
             is RecipeUiState.Idle, is RecipeUiState.Loading -> {
-                Spacer(modifier = Modifier.height(16.dp))
-                CircularProgressIndicator()
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 32.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
             }
             is RecipeUiState.Error -> {
                 Spacer(modifier = Modifier.height(16.dp))
@@ -77,7 +83,6 @@ fun HomeScreen(
 
         Button(
             onClick = {
-                // Permite gerar nova receita ao navegar para outra tela
                 recipeRequested.value = false
                 navController.navigate("generate_recipe")
             },

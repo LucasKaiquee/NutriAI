@@ -32,7 +32,8 @@ object GeradorReceitas {
             - Ingredientes Disponíveis: $ingredientesDisponiveis
 
             **Instruções:**
-            1. Crie uma receita que use uma parte ou todos os ingredientes listados e somente eles, já que só tem eles disponíveis.
+            0. Crie uma receita que use uma parte ou todos os ingredientes listados e somente eles, já que só tem eles disponíveis.
+            1. As preferencias devem ser lavadas em considerção mas não se prenda somente a elas.
             2. O nome da receita deve ser simples.
             3. A categoria deve ser uma das seguintes: "Café da manhã", "Almoço", "Lanche", "Jantar".
             4. Gere uma resposta contendo APENAS um objeto JSON válido, sem nenhum texto ou formatação extra antes ou depois.

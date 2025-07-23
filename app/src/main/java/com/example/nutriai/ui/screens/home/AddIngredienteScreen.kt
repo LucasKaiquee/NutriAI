@@ -21,7 +21,6 @@ import kotlinx.coroutines.launch
 fun AddIngredientScreen(
     navController: NavController
 ) {
-    // Estados para controlar os campos do formulário
     var nome by remember { mutableStateOf("") }
     var quantidade by remember { mutableStateOf("") }
     var unidade by remember { mutableStateOf("") }
@@ -36,7 +35,6 @@ fun AddIngredientScreen(
             TopAppBar(
                 title = { Text("Novo Ingrediente") },
                 navigationIcon = {
-                    // Botão "X" para fechar a tela
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.Close, contentDescription = "Fechar")
                     }
@@ -72,7 +70,7 @@ fun AddIngredientScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.weight(1f)) // Empurra o botão para baixo
+            Spacer(modifier = Modifier.weight(1f))
 
             if (isLoading) {
                 CircularProgressIndicator()

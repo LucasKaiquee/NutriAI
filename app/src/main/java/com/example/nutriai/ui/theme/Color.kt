@@ -9,3 +9,4 @@ val NutriAILightSurface = Color(0xFFF9F9F9)
 // Cores para o tema escuro (versões mais claras das cores principais)
 val NutriAITealLight = Color(0xFF4DB6AC)
 val NutriAIGreenLight = Color(0xFF66BB6A)
+
