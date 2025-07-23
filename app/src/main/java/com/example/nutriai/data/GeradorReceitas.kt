@@ -16,12 +16,9 @@ object GeradorReceitas {
         rotina: String,
         gostos: String,
         ingredientes: List<String>
-    ): String { // A função ainda retorna uma String (o JSON bruto)
+    ): String { 
         try {
             val ingredientesDisponiveis = ingredientes.joinToString(", ")
-
-            println("----Ingredientes Disponiveis ----------------")
-            println(ingredientesDisponiveis)
 
             val prompt = """
             Você é um nutricionista chamado NutriAI. Sua tarefa é criar uma receita saudável e nutritiva em formato JSON.

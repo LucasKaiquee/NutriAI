@@ -93,39 +93,25 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    // --- GRUPO 1: CORE DO ANDROID E KOTLIN ---
+    
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.2")
     implementation("androidx.activity:activity-compose:1.9.0")
 
-    // --- GRUPO 2: JETPACK COMPOSE ---
-    // BoM (Bill of Materials) do Compose: gerencia as versões de todas as bibliotecas do Compose
     implementation(platform("androidx.compose:compose-bom:2024.06.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    // Para usar viewModel() na tela
+
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
-    // Para usar collectAsState() de forma segura no ciclo de vida
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.2")
 
-
-    // --- GRUPO 3: FIREBASE ---
-    // BoM do Firebase: gerencia as versões das bibliotecas do Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
-    // Para autenticação de usuários (login, cadastro, etc.)
     implementation("com.google.firebase:firebase-auth-ktx")
-    // Para o banco de dados Cloud Firestore
     implementation("com.google.firebase:firebase-firestore-ktx")
 
-
-    // --- GRUPO 4: COROUTINES ---
-    // Essencial para usar o .await() nas chamadas do Firebase, simplificando o código assíncrono
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
-
-
-    // --- GRUPO 5: TESTES (Padrão do projeto) ---
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
