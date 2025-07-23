@@ -1,3 +1,4 @@
+import android.util.Log
 import com.example.nutriai.modelo.Ingrediente
 import com.example.nutriai.modelo.Receita
 import com.example.nutriai.modelo.Usuario
@@ -20,7 +21,10 @@ object UserRepository {
     fun saveUser(user: Usuario, onResult: (Boolean) -> Unit) {
         userDoc.set(user)
             .addOnSuccessListener { onResult(true) }
-            .addOnFailureListener { onResult(false) }
+            .addOnFailureListener {
+                Log.e("UserRepository", "Erro ao salvar usuário", it)
+                onResult(false)
+            }
     }
 
     fun addIngredient(newIngredient: Ingrediente, onResult: (Boolean) -> Unit) {

@@ -1,5 +1,7 @@
 package com.example.nutriai.ui.screens.profile
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -110,11 +112,14 @@ fun ProfileEditScreen(navController: NavController) {
 
             Button(
                 onClick = {
-                    UserRepository.saveUser(user) {
-                        if (it) {
-                            navController.navigate("viewProfile") {
+                    UserRepository.saveUser(user) { success ->
+                        if (success) {
+                            navController.navigate("perfil") {
                                 popUpTo("editProfile") { inclusive = true }
                             }
+                        } else {
+                            Log.e("ProfileEdit", "Erro ao salvar usuário")
+
                         }
                     }
                 },
