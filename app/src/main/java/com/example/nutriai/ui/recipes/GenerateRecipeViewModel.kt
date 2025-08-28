@@ -1,7 +1,8 @@
-package com.example.nutriai.ui.recipe
+package com.example.nutriai.ui.recipes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nutriai.data.UserRepository
 import com.example.nutriai.data.GeradorReceitas
 import com.example.nutriai.modelo.Receita
 import com.example.nutriai.ui.recipes.JSONParser
@@ -17,17 +18,18 @@ sealed interface RecipeUiState {
     data class Error(val message: String) : RecipeUiState
 }
 
-class GenerateRecipeViewModel : ViewModel() {
+class GenerateRecipeViewModel(
+    private val userRepository: UserRepository
+): ViewModel() {
 
     private val _uiState = MutableStateFlow<RecipeUiState>(RecipeUiState.Idle)
     val uiState = _uiState.asStateFlow()
-
 
     fun generateRecipeFor(mealType: String) {
         viewModelScope.launch {
             _uiState.value = RecipeUiState.Loading
 
-            UserRepository.getUser { user ->
+            userRepository.getUser { user ->
                 if (user == null) {
                     _uiState.value = RecipeUiState.Error("Não foi possível carregar os dados do usuário.")
                     return@getUser
@@ -53,7 +55,7 @@ class GenerateRecipeViewModel : ViewModel() {
                     when (val parseResult = JSONParser.parse(cleanedJsonString)) {
                         is ParseResult.Success -> {
                             val recipeObject = parseResult.recipe
-                            UserRepository.addGeneratedRecipe(recipeObject) { success ->
+                            userRepository.addGeneratedRecipe(recipeObject) { success ->
                                 if (success) {
                                     _uiState.value = RecipeUiState.Success(recipeObject)
                                 } else {

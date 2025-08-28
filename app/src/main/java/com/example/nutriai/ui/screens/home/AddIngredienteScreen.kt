@@ -14,21 +14,23 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.nutriai.modelo.Ingrediente
+import com.example.nutriai.viewmodel.IngredientViewModel
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddIngredientScreen(
     navController: NavController
 ) {
+    val viewModel: IngredientViewModel = koinViewModel()
+    val isLoading by viewModel.isLoading.collectAsState()
+
     var nome by remember { mutableStateOf("") }
     var quantidade by remember { mutableStateOf("") }
     var unidade by remember { mutableStateOf("") }
-    var isLoading by remember { mutableStateOf(false) }
-
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-
 
     Scaffold(
         topBar = {
@@ -78,21 +80,18 @@ fun AddIngredientScreen(
                 Button(
                     onClick = {
                         if (nome.isNotBlank() && quantidade.isNotBlank()) {
-                            isLoading = true
-                            scope.launch {
-                                val novoIngrediente = Ingrediente(
-                                    nome = nome.trim(),
-                                    quantidade = quantidade.toFloatOrNull() ?: 0f,
-                                    unidadeDeMedidaPadrao = unidade.trim()
-                                )
+                            val novoIngrediente = Ingrediente(
+                                nome = nome.trim(),
+                                quantidade = quantidade.toFloatOrNull() ?: 0f,
+                                unidadeDeMedidaPadrao = unidade.trim()
+                            )
 
-                                UserRepository.addIngredient(novoIngrediente) { success ->
-                                    if (success) {
-                                        Toast.makeText(context, "Ingrediente salvo com sucesso!", Toast.LENGTH_SHORT).show()
-                                        navController.popBackStack()
-                                    } else {
-                                        Toast.makeText(context, "Falha ao salvar o ingrediente.", Toast.LENGTH_SHORT).show()
-                                    }
+                            viewModel.addIngredient(novoIngrediente) { success ->
+                                if (success) {
+                                    Toast.makeText(context, "Ingrediente salvo com sucesso!", Toast.LENGTH_SHORT).show()
+                                    navController.popBackStack()
+                                } else {
+                                    Toast.makeText(context, "Falha ao salvar o ingrediente.", Toast.LENGTH_SHORT).show()
                                 }
                             }
 
@@ -100,7 +99,9 @@ fun AddIngredientScreen(
                             Toast.makeText(context, "Preencha pelo menos o nome e a quantidade.", Toast.LENGTH_LONG).show()
                         }
                     },
-                    modifier = Modifier.fillMaxWidth().height(48.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
                 ) {
                     Text("Salvar Ingrediente")
                 }

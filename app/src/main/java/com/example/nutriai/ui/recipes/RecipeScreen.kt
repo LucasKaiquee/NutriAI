@@ -12,14 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.nutriai.ui.recipe.GenerateRecipeViewModel
-import com.example.nutriai.ui.recipe.RecipeUiState
+import com.example.nutriai.ui.recipes.GenerateRecipeViewModel
+import com.example.nutriai.ui.recipes.RecipeUiState
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GenerateRecipeScreen(
     navController: NavController,
-    viewModel: GenerateRecipeViewModel = viewModel()
+    viewModel: GenerateRecipeViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var selectedMeal by remember { mutableStateOf<String?>(null) }

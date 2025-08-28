@@ -15,79 +15,78 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.nutriai.modelo.Usuario
+import com.example.nutriai.viewmodel.ProfileViewModel
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun ProfileScreenContent(navController: NavController) {
-    var user by remember { mutableStateOf<Usuario?>(null) }
+fun ProfileScreenContent(
+    navController: NavController,
+    viewModel: ProfileViewModel = koinViewModel()
+) {
+    val user by viewModel.user.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
 
-    LaunchedEffect(Unit) {
-        UserRepository.getUser {
-            user = it
+    if (isLoading) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text("Carregando perfil...")
         }
-    }
-
-    user?.let { userData ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
-            Surface(
+    } else {
+        user?.let { userData ->
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .shadow(6.dp, RoundedCornerShape(12.dp)),
-                shape = RoundedCornerShape(12.dp),
-                color = Color(0xFFF9F9F9)
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState())
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-
-                    Text("Informações pessoais", fontSize = 18.sp, color = Color.Black)
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Text("Nome", color = Color(0xFF00897B), fontSize = 14.sp)
-                    Text(userData.name, fontSize = 16.sp)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text("Idade", color = Color(0xFF00897B), fontSize = 14.sp)
-                    Text(userData.age.toString(), fontSize = 16.sp)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text("Rotina", color = Color(0xFF00897B), fontSize = 14.sp)
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 4.dp)
-                            .background(Color.White, RoundedCornerShape(8.dp))
-                            .padding(12.dp)
-                    ) {
-                        Text(userData.routine, fontSize = 14.sp)
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text("Gostos", color = Color(0xFF43A047), fontSize = 14.sp)
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 4.dp)
-                            .background(Color.White, RoundedCornerShape(8.dp))
-                            .padding(12.dp)
-                    ) {
-                        Text(userData.preferences, fontSize = 14.sp)
-                    }
-                    Spacer(modifier = Modifier.height(24.dp))
-                    Button(
-                        onClick = { navController.navigate("editProfile") },
-                        modifier = Modifier.align(Alignment.End)
-                    ) {
-                        Text("Editar")
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .shadow(6.dp, RoundedCornerShape(12.dp)),
+                    shape = RoundedCornerShape(12.dp),
+                    color = Color(0xFFF9F9F9)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text("Informações pessoais", fontSize = 18.sp, color = Color.Black)
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Text("Nome", color = Color(0xFF00897B), fontSize = 14.sp)
+                        Text(userData.name, fontSize = 16.sp)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text("Idade", color = Color(0xFF00897B), fontSize = 14.sp)
+                        Text(userData.age.toString(), fontSize = 16.sp)
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text("Rotina", color = Color(0xFF00897B), fontSize = 14.sp)
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 4.dp)
+                                .background(Color.White, RoundedCornerShape(8.dp))
+                                .padding(12.dp)
+                        ) {
+                            Text(userData.routine, fontSize = 14.sp)
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text("Gostos", color = Color(0xFF43A047), fontSize = 14.sp)
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 4.dp)
+                                .background(Color.White, RoundedCornerShape(8.dp))
+                                .padding(12.dp)
+                        ) {
+                            Text(userData.preferences, fontSize = 14.sp)
+                        }
+                        Spacer(modifier = Modifier.height(24.dp))
+                        Button(
+                            onClick = { navController.navigate("editProfile") },
+                            modifier = Modifier.align(Alignment.End)
+                        ) {
+                            Text("Editar")
+                        }
                     }
                 }
             }
         }
-    } ?: run {
-        // A tela de carregamento também fica aqui
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text("Carregando perfil...")
-        }
     }
 }
-
 

@@ -1,6 +1,5 @@
 package com.example.nutriai.ui.screens.home
 
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,24 +15,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.nutriai.modelo.Ingrediente
+import com.example.nutriai.viewmodel.IngredientViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IngredientListScreen(navController: NavController) {
-    var ingredientList by remember { mutableStateOf<List<Ingrediente>>(emptyList()) }
-    var isLoading by remember { mutableStateOf(true) }
-
-    fun fetchIngredients() {
-        isLoading = true
-        UserRepository.getUser { user ->
-            ingredientList = user?.ingredientes ?: emptyList()
-            isLoading = false
-        }
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        fetchIngredients()
-    }
+    val viewModel: IngredientViewModel = koinViewModel()
+    val ingredientList by viewModel.ingredients.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
 
     Scaffold(
         topBar = {
@@ -55,40 +45,40 @@ fun IngredientListScreen(navController: NavController) {
             }
         }
     ) { innerPadding ->
-        if (isLoading) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+        when {
+            isLoading -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
             }
-        } else if (ingredientList.isEmpty()) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("Você ainda não tem ingredientes.")
+            ingredientList.isEmpty() -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text("Você ainda não tem ingredientes.")
+                }
             }
-        } else {
-            LazyColumn(
-                modifier = Modifier.padding(innerPadding),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(ingredientList, key = { it.id }) { ingredient ->
-                    Card(elevation = CardDefaults.cardElevation(2.dp)) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(ingredient.nome, fontWeight = FontWeight.Bold)
-                                Text("${ingredient.quantidade} ${ingredient.unidadeDeMedidaPadrao}")
-                            }
-                            IconButton(onClick = {
-                                UserRepository.deleteIngredient(ingredient.id) { success ->
-                                    if (success) {
-                                        fetchIngredients()
-                                    }
+            else -> {
+                LazyColumn(
+                    modifier = Modifier.padding(innerPadding),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(ingredientList, key = { it.id }) { ingredient ->
+                        Card(elevation = CardDefaults.cardElevation(2.dp)) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(ingredient.nome, fontWeight = FontWeight.Bold)
+                                    Text("${ingredient.quantidade} ${ingredient.unidadeDeMedidaPadrao}")
                                 }
-                            }) {
-                                Icon(Icons.Default.Delete, contentDescription = "Deletar", tint = MaterialTheme.colorScheme.error)
+                                IconButton(onClick = {
+                                    viewModel.deleteIngredient(ingredient.id) { /* opcional: toast */ }
+                                }) {
+                                    Icon(Icons.Default.Delete, contentDescription = "Deletar", tint = MaterialTheme.colorScheme.error)
+                                }
                             }
                         }
                     }

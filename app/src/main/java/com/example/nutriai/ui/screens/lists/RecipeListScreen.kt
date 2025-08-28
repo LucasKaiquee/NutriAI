@@ -10,10 +10,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.nutriai.ui.recipes.RecipeCard
 import com.example.nutriai.viewmodel.ReceitaViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RecipeListScreen(
-    receitaViewModel: ReceitaViewModel = viewModel()
+    receitaViewModel: ReceitaViewModel = koinViewModel()
 ) {
     val receitas by receitaViewModel.receitas.collectAsState()
     val isLoading by receitaViewModel.isLoading.collectAsState()

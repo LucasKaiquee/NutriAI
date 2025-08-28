@@ -11,10 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.nutriai.components.ServicesSection
-import com.example.nutriai.ui.recipe.GenerateRecipeViewModel
+import com.example.nutriai.ui.recipes.GenerateRecipeViewModel
 import com.example.nutriai.ui.recipes.RecipeCard
-import com.example.nutriai.ui.recipe.RecipeUiState
+import com.example.nutriai.ui.recipes.RecipeUiState
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.koin.androidx.compose.koinViewModel
 import java.util.*
 
 fun getCurrentMealTime(): String {
@@ -30,7 +31,7 @@ fun getCurrentMealTime(): String {
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: GenerateRecipeViewModel = viewModel()
+    viewModel: GenerateRecipeViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val currentMeal = remember { getCurrentMealTime() }

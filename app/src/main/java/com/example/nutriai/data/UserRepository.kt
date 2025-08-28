@@ -1,11 +1,14 @@
+package com.example.nutriai.data
+
 import android.util.Log
 import com.example.nutriai.modelo.Ingrediente
 import com.example.nutriai.modelo.Receita
 import com.example.nutriai.modelo.Usuario
 import com.google.firebase.firestore.FirebaseFirestore
 
-object UserRepository {
-    private val db = FirebaseFirestore.getInstance()
+class UserRepository(
+    private val db: FirebaseFirestore
+) {
     private val userDoc = db.collection("usuarios").document("FfyTYvx2zqWZSCi4Sg04DDK62B93")
 
     fun getUser(onResult: (Usuario?) -> Unit) {
@@ -31,20 +34,14 @@ object UserRepository {
         getUser { currentUser ->
             if (currentUser != null) {
                 val updatedIngredients = currentUser.ingredientes.toMutableList()
-
                 val newId = userDoc.collection("ingredientesDisponiveis").document().id
-
                 val ingredientWithId = newIngredient.copy(id = newId)
-
                 updatedIngredients.add(ingredientWithId)
 
                 val updatedUser = currentUser.copy(
                     ingredientes = updatedIngredients
                 )
-
-                saveUser(updatedUser) { success ->
-                    onResult(success)
-                }
+                saveUser(updatedUser, onResult)
             } else {
                 onResult(false)
             }
@@ -60,10 +57,7 @@ object UserRepository {
                 val updatedUser = currentUser.copy(
                     ingredientes = updatedIngredients
                 )
-
-                saveUser(updatedUser) { success ->
-                    onResult(success)
-                }
+                saveUser(updatedUser, onResult)
             } else {
                 onResult(false)
             }
@@ -74,10 +68,8 @@ object UserRepository {
         getUser { currentUser ->
             if (currentUser != null) {
                 val updatedRecipes = currentUser.receitas.toMutableList()
-
                 val newId = userDoc.collection("receitasSalvas").document().id
                 val recipeWithId = newRecipe.copy(id = newId)
-
                 updatedRecipes.add(recipeWithId)
 
                 val updatedUser = currentUser.copy(receitas = updatedRecipes)

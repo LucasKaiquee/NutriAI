@@ -7,7 +7,7 @@ object GeradorReceitas {
 
     private val generativeModel = GenerativeModel(
         modelName = "gemini-2.5-flash",
-        apiKey =  "AIzaSyBmZ847xmXD4o4fyY2m4dW8GWN98UvAbZQ"
+        apiKey =  "AIzaSyAlUiQ6N1gaaKbRsZx30AiVc8ffl8R0Aag"
     )
 
 // Dentro do object RecipeGenerator
