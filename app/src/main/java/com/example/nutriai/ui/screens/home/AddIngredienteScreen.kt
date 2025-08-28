@@ -14,8 +14,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.nutriai.modelo.Ingrediente
-import com.example.nutriai.viewmodel.IngredientViewModel
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -24,7 +22,7 @@ fun AddIngredientScreen(
     navController: NavController
 ) {
     val viewModel: IngredientViewModel = koinViewModel()
-    val isLoading by viewModel.isLoading.collectAsState()
+    val isActing by viewModel.isActing.collectAsState()
 
     var nome by remember { mutableStateOf("") }
     var quantidade by remember { mutableStateOf("") }
@@ -74,7 +72,7 @@ fun AddIngredientScreen(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            if (isLoading) {
+            if (isActing) {
                 CircularProgressIndicator()
             } else {
                 Button(

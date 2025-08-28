@@ -1,5 +1,8 @@
 package com.example.nutriai.modelo
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Ingrediente(
     val id: String = "",
     val nome: String = "",

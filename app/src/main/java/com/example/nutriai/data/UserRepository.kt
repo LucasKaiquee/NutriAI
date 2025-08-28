@@ -1,82 +1,88 @@
+// app/src/main/java/com/example/nutriai/data/UserRepository.kt
+
 package com.example.nutriai.data
 
 import android.util.Log
+import com.example.nutriai.data.local.UserDAO
 import com.example.nutriai.modelo.Ingrediente
 import com.example.nutriai.modelo.Receita
 import com.example.nutriai.modelo.Usuario
-import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.Flow // Importe o Flow
+import java.util.UUID
 
 class UserRepository(
-    private val db: FirebaseFirestore
+    private val userDao: UserDAO
 ) {
-    private val userDoc = db.collection("usuarios").document("FfyTYvx2zqWZSCi4Sg04DDK62B93")
+    private val userId = "FfyTYvx2zqWZSCi4Sg04DDK62B93"
 
-    fun getUser(onResult: (Usuario?) -> Unit) {
-        userDoc.get()
-            .addOnSuccessListener { document ->
-                onResult(document.toObject(Usuario::class.java))
-            }
-            .addOnFailureListener {
-                onResult(null)
-            }
+    // Nova função para observar o usuário
+    fun getObservableUser(): Flow<Usuario?> {
+        return userDao.getObservableUser(userId)
     }
 
-    fun saveUser(user: Usuario, onResult: (Boolean) -> Unit) {
-        userDoc.set(user)
-            .addOnSuccessListener { onResult(true) }
-            .addOnFailureListener {
-                Log.e("UserRepository", "Erro ao salvar usuário", it)
-                onResult(false)
-            }
+    suspend fun getUser(): Usuario? {
+        return userDao.getUser(userId)
     }
 
-    fun addIngredient(newIngredient: Ingrediente, onResult: (Boolean) -> Unit) {
-        getUser { currentUser ->
+    // ... (o restante do arquivo continua igual)
+    suspend fun saveUser(user: Usuario) {
+        userDao.saveUser(user)
+    }
+
+    suspend fun addIngredient(newIngredient: Ingrediente): Boolean {
+        return try {
+            val currentUser = getUser()
             if (currentUser != null) {
                 val updatedIngredients = currentUser.ingredientes.toMutableList()
-                val newId = userDoc.collection("ingredientesDisponiveis").document().id
-                val ingredientWithId = newIngredient.copy(id = newId)
+                val ingredientWithId = newIngredient.copy(id = UUID.randomUUID().toString())
                 updatedIngredients.add(ingredientWithId)
 
-                val updatedUser = currentUser.copy(
-                    ingredientes = updatedIngredients
-                )
-                saveUser(updatedUser, onResult)
+                val updatedUser = currentUser.copy(ingredientes = updatedIngredients)
+                saveUser(updatedUser)
+                true
             } else {
-                onResult(false)
+                false
             }
+        } catch (e: Exception) {
+            Log.e("UserRepository", "Erro ao adicionar ingrediente", e)
+            false
         }
     }
 
-    fun deleteIngredient(ingredientId: String, onResult: (Boolean) -> Unit) {
-        getUser { currentUser ->
+    suspend fun deleteIngredient(ingredientId: String): Boolean {
+        return try {
+            val currentUser = getUser()
             if (currentUser != null) {
-                val updatedIngredients = currentUser.ingredientes
-                    .filterNot { it.id == ingredientId }
-
-                val updatedUser = currentUser.copy(
-                    ingredientes = updatedIngredients
-                )
-                saveUser(updatedUser, onResult)
+                val updatedIngredients = currentUser.ingredientes.filterNot { it.id == ingredientId }
+                val updatedUser = currentUser.copy(ingredientes = updatedIngredients)
+                saveUser(updatedUser)
+                true
             } else {
-                onResult(false)
+                false
             }
+        } catch (e: Exception) {
+            Log.e("UserRepository", "Erro ao deletar ingrediente", e)
+            false
         }
     }
 
-    fun addGeneratedRecipe(newRecipe: Receita, onResult: (Boolean) -> Unit) {
-        getUser { currentUser ->
+    suspend fun addGeneratedRecipe(newRecipe: Receita): Boolean {
+        return try {
+            val currentUser = getUser()
             if (currentUser != null) {
                 val updatedRecipes = currentUser.receitas.toMutableList()
-                val newId = userDoc.collection("receitasSalvas").document().id
-                val recipeWithId = newRecipe.copy(id = newId)
+                val recipeWithId = newRecipe.copy(id = UUID.randomUUID().toString())
                 updatedRecipes.add(recipeWithId)
 
                 val updatedUser = currentUser.copy(receitas = updatedRecipes)
-                saveUser(updatedUser, onResult)
+                saveUser(updatedUser)
+                true
             } else {
-                onResult(false)
+                false
             }
+        } catch (e: Exception) {
+            Log.e("UserRepository", "Erro ao adicionar receita", e)
+            false
         }
     }
 }

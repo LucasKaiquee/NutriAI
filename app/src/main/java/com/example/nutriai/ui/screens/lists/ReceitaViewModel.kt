@@ -25,12 +25,11 @@ class ReceitaViewModel(
     fun carregarReceitas() {
         _isLoading.value = true
         viewModelScope.launch {
-            userRepository.getUser { user ->
-                user?.let {
-                    _receitas.value = it.receitas
-                }
-                _isLoading.value = false
+            val user = userRepository.getUser()
+            user?.let {
+                _receitas.value = it.receitas
             }
+            _isLoading.value = false
         }
     }
 }
