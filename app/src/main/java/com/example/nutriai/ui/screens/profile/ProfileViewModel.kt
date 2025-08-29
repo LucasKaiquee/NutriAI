@@ -1,4 +1,4 @@
-package com.example.nutriai.viewmodel
+package com.example.nutriai.ui.screens.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,17 +22,23 @@ class ProfileViewModel(
         loadUser()
     }
 
-    fun loadUser() {
+    private fun loadUser() {
         _isLoading.value = true
         viewModelScope.launch {
-            userRepository.getUser { usuario ->
-                _user.value = usuario
-                _isLoading.value = false
-            }
+            _user.value = userRepository.getUser()
+            _isLoading.value = false
         }
     }
 
     fun saveUser(usuario: Usuario, onResult: (Boolean) -> Unit) {
-        userRepository.saveUser(usuario, onResult)
+        viewModelScope.launch {
+            try {
+                userRepository.saveUser(usuario)
+                onResult(true)
+            } catch (e: Exception) {
+                // O ideal seria logar o erro aqui
+                onResult(false)
+            }
+        }
     }
 }

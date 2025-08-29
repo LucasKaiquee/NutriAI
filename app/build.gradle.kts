@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
     id("com.google.gms.google-services")
 }
@@ -125,4 +126,10 @@ dependencies {
 
     implementation("io.insert-koin:koin-android:4.0.3")
     implementation("io.insert-koin:koin-androidx-compose:4.0.3")
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
 }

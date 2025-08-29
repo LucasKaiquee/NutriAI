@@ -14,8 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.nutriai.modelo.Usuario
-import com.example.nutriai.viewmodel.ProfileViewModel
 import org.koin.androidx.compose.koinViewModel
 
 

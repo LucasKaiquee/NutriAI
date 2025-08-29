@@ -1,22 +1,23 @@
+// app/src/main/java/com/example/nutriai/di/AppModule.kt
+
 package com.example.nutriai.di
 
 import com.example.nutriai.data.UserRepository
-import com.example.nutriai.viewmodel.ReceitaViewModel
-import com.google.firebase.firestore.FirebaseFirestore
-import org.koin.core.module.dsl.viewModel
-import com.example.nutriai.viewmodel.ProfileViewModel
-import com.example.nutriai.viewmodel.IngredientViewModel
-import org.koin.dsl.module
+import com.example.nutriai.data.local.NutriAIDatabase
 import com.example.nutriai.ui.recipes.GenerateRecipeViewModel
+import com.example.nutriai.ui.screens.home.IngredientViewModel
+import com.example.nutriai.ui.screens.profile.ProfileViewModel
+import com.example.nutriai.viewmodel.ReceitaViewModel
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.module.dsl.viewModel
+import org.koin.dsl.module
 
 val appModule = module {
-    single { FirebaseFirestore.getInstance() }
+    single { NutriAIDatabase.getDatabase(androidContext()).userDao() }
     single { UserRepository(get()) }
 
-    // registra o ViewModel corretamente
     viewModel { ReceitaViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
     viewModel { IngredientViewModel(get()) }
     viewModel { GenerateRecipeViewModel(get()) }
-
 }
